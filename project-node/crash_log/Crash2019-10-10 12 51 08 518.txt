@@ -1,0 +1,13 @@
+Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1106:14)
+    --------------------
+    at Protocol._enqueue (E:\empty angular\project-node\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at Protocol.handshake (E:\empty angular\project-node\node_modules\mysql\lib\protocol\Protocol.js:51:23)
+    at Connection.connect (E:\empty angular\project-node\node_modules\mysql\lib\Connection.js:119:18)
+    at Object.<anonymous> (E:\empty angular\project-node\helpers\db_helpers.js:15:4)
+    at Module._compile (internal/modules/cjs/loader.js:776:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:787:10)
+    at Module.load (internal/modules/cjs/loader.js:653:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:585:3)
+    at Module.require (internal/modules/cjs/loader.js:690:17)
