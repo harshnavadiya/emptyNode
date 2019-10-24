@@ -12,7 +12,7 @@ module.exports.controller = function(app, io, socket_list) {
 
     const ut_user = 0
     const ut_agent = 1
-    const ut_admin = 3
+    const ut_admin = 2
 
     const near_by_location_in_km = 10;
 

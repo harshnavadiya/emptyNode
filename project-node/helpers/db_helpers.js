@@ -49,9 +49,9 @@ module.exports = {
 
     insert: (table, columm_sql, args, callback) => {
 
-        // db.query('INSERT INTO `' + table +'` ('+  +') VALUES ('+ +');', args, (error, result) => {
-        //     return callback(error, result)
-        // })
+        db.query('INSERT INTO `' + table + '` (' + columm_sql + ') VALUES ?;', args, (error, result) => {
+            return callback(error, result);
+        })
     }
 }
 
