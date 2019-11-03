@@ -36,7 +36,7 @@ module.exports.controller = function(app, io, socket_list) {
                 }
                 if (result['affectedRows'] == 1) {
 
-                    db.query('SELECT `user_id`, `name`, `email`, `mobile`, `auth_token` FROM `user_detail` WHERE `email` = ?', [reqObj.user_name], (err, result) => {
+                    db.query('SELECT `user_id`,`image_name`, `name`, `email`, `mobile`, `auth_token` FROM `user_detail` WHERE `email` = ?', [reqObj.user_name], (err, result) => {
                         if (err) {
                             helper.ThrowHtmlError(err, res);
                             return
@@ -80,6 +80,54 @@ module.exports.controller = function(app, io, socket_list) {
                         "message": msg_invalid_user_password
                     })
                 }
+            })
+        })
+    })
+
+    app.post('/api/user_image_upload', (req, res) => {
+        var form = new multiparty.Form();
+        helper.Dlog(req.body);
+        form.parse(req, (err, fields, files) => {
+            if (err) {
+                helper.ThrowHtmlError(err, res);
+                return
+            }
+            helper.CheckParameterValid(res, fields, ['access_token', "user_id"], () => {
+
+                helper.CheckParameterValid(res, files, ["image"], () => {
+                    console.log(files);
+                    // console.log(res);
+                    var image_name = "profile/" + helper.file_name_generate(files.image[0].originalFilename.substring(files.image[0].originalFilename.lastIndexOf(".") + 1));;
+                    var new_path = image_save_path + image_name;
+
+                    fs.copyFile(files.image[0].path, new_path, () => {
+                        if (err) {
+                            helper.ThrowHtmlError(err, res);
+                            return
+                        }
+                        db.query("UPDATE `user_detail` SET `image_name` = ? WHERE `user_id` = ?", [image_name, fields.user_id[0]], (err, result) => {
+                            if (err) {
+                                helper.ThrowHtmlError(err, res)
+                                return
+                            }
+                            if (result.affectedRows > 0) {
+
+                                res.json({
+                                    "success": "true",
+                                    "status": "1",
+                                    "payload": [{ 'image': image_name }]
+                                });
+
+                            } else {
+                                res.json({
+                                    "success": "false",
+                                    "status": "0",
+                                    "message": msg_fail
+                                });
+                            }
+                        })
+                    })
+                })
             })
         })
     })
